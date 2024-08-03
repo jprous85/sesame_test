@@ -1,1 +1,1 @@
-CREATE DATABASE technicaltest_bbdd;
+CREATE DATABASE sesame_bbdd;

@@ -1,17 +1,43 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 RUN apt-get update
 
-RUN docker-php-ext-install pdo pdo_mysql
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions pdo pdo_mysql mbstring pdo_mysql zip exif pcntl gd
+
+
+#previous code
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl
+
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
+RUN install-php-extensions xdebug
+
+COPY docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
 
 RUN apt-get install -y curl
-RUN apt-get install -y git
-RUN apt-get install -y unzip
+RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y unzip
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php
-RUN php -r "unlink('composer-setup.php');"
+RUN cd ~
+RUN curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 RUN apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
@@ -23,10 +49,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN apt-get update && apt install -y yarn
-
-RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list
-RUN apt update
-RUN apt install symfony-cli
 
 COPY ./virtualhost.conf /etc/apache2/sites-available/
 COPY ./php.ini /usr/local/lib/
