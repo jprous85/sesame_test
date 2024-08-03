@@ -1,0 +1,4 @@
+login:
+  path: /api/login
+  methods: post
+  controller: App\Security\Infrastructure\Controllers\LoginAuthenticatorController::login
