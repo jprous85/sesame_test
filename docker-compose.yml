@@ -1,0 +1,30 @@
+version: "3"
+services:
+  web:
+    build: docker
+    container_name: '${APP_NAME}'
+    ports:
+      - 8083:80
+    volumes:
+    - .:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: '${APP_MYSQL_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_PASSWORD: 'root'
+    command:
+      - --default-authentication-plugin=mysql_native_password
+    ports:
+      - '33069:3306'
+    expose:
+      - '33069'
+    volumes:
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
