@@ -27,7 +27,7 @@ final class LoginAuthenticatorController extends BaseController
         $user = $em->getRepository(User::class)->findOneBy(['email' => $requestData['email']]);
 
         if (!$user) {
-            throw new BadCredentialsException('User not exist');
+            return $this->errorResponse(['message' => 'This user: ' . $requestData['email'] . ' does not exist']);
         }
 
         if (!$passwordHashed->isPasswordValid($user, $requestData['password'])) {
