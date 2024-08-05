@@ -2,3 +2,7 @@
 auth:
   resource: ./routes/auth.yaml
   type: yaml
+
+user:
+  resource: ./routes/user.yaml
+  type: yaml

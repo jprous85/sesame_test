@@ -1,0 +1,25 @@
+
+show-user:
+  path: /api/user/{uuid}/show
+  methods: get
+  controller: App\User\Infrastructure\Controllers\UserGetController::show
+
+show-all-users:
+  path: /api/user/show-all
+  methods: get
+  controller: App\User\Infrastructure\Controllers\UserGetController::showAll
+
+create-user:
+  path: /api/user/create
+  methods: post
+  controller: App\User\Infrastructure\Controllers\UserPostController::create
+
+update-user:
+  path: /api/user/{uuid}/update
+  methods: put
+  controller: App\User\Infrastructure\Controllers\UserPutController::update
+
+delete-user:
+  path: /api/user/{uuid}/delete
+  methods: delete
+  controller: App\User\Infrastructure\Controllers\UserDeleteController::delete
