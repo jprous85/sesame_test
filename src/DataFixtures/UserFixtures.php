@@ -26,7 +26,6 @@ final class UserFixtures extends Fixture
             $user->setName('Test' . $i);
             $user->setEmail('test' . $i . '@sesame.com');
             $user->setPassword($this->passwordHashed->hashPassword($user, 'password'));
-            $user->setRole('admin');
             $user->setCreatedAt(new \DateTime('now'));
 
             $manager->persist($user);

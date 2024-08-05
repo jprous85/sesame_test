@@ -13,7 +13,6 @@ final class CreateUserRequest
         private readonly string $name,
         private readonly string $email,
         private readonly string $password,
-        private readonly string $role
     )
     {
     }
@@ -48,13 +47,5 @@ final class CreateUserRequest
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole(): string
-    {
-        return $this->role;
     }
 }

@@ -16,8 +16,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class UserPostController extends BaseController
 {
-    const ADMIN_ROLE = 'admin';
-
     public function __construct(
         private readonly MessageBusInterface $commandBus,
         private readonly MessageBusInterface $queryBus,
@@ -45,8 +43,7 @@ final class UserPostController extends BaseController
             (string) Uuid::v4(),
             $request['name'],
             $request['email'],
-            $passwordTextHashed,
-            self::ADMIN_ROLE
+            $passwordTextHashed
         );
     }
 }

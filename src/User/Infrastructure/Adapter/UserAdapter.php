@@ -13,7 +13,6 @@ use App\User\Domain\ValueObjects\UserDeletedAtVO;
 use App\User\Domain\ValueObjects\UserEmailVO;
 use App\User\Domain\ValueObjects\UserNameVO;
 use App\User\Domain\ValueObjects\UserPasswordVO;
-use App\User\Domain\ValueObjects\UserRoleVO;
 use App\User\Domain\ValueObjects\UserUpdatedAtVO;
 use App\User\Domain\ValueObjects\UserUuidVO;
 use Exception;
@@ -40,7 +39,6 @@ final class UserAdapter implements UserAdapterRepository
             new UserNameVO($this->getName()),
             new UserEmailVO($this->getEmail()),
             new UserPasswordVO($this->getPassword()),
-            new UserRoleVO($this->getRole()),
             new UserCreatedAtVO($this->getCreatedAt()),
             new UserUpdatedAtVO($this->getUpdatedAt()),
             new UserDeletedAtVO($this->getDeletedAt()),
@@ -65,11 +63,6 @@ final class UserAdapter implements UserAdapterRepository
     private function getPassword()
     {
         return $this->userEntity->getPassword();
-    }
-
-    private function getRole()
-    {
-        return $this->userEntity->getRole();
     }
 
     private function getCreatedAt()

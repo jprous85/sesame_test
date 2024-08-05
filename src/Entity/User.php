@@ -55,14 +55,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private string $password;
 
     #[ORM\Column(
-        name: "role",
-        type: "string",
-        length: 255,
-        nullable: false
-    )]
-    private string $role;
-
-    #[ORM\Column(
         name: "created_at",
         type: "datetime",
         nullable: false
@@ -148,22 +140,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     }
 
     /**
-     * @return string
-     */
-    public function getRole(): string
-    {
-        return $this->role;
-    }
-
-    /**
-     * @param string $role
-     */
-    public function setRole(string $role): void
-    {
-        $this->role = $role;
-    }
-
-    /**
      * @return DateTime
      */
     public function getCreatedAt(): DateTime
@@ -223,7 +199,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function getRoles(): array
     {
-        return [$this->role];
+        return [];
     }
 
     public function setPassword(string $password): void
