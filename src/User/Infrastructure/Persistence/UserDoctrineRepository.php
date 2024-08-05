@@ -1,0 +1,106 @@
+<?php
+
+declare(strict_types=1);
+
+
+namespace App\User\Infrastructure\Persistence;
+
+
+use App\User\Domain\User;
+use App\User\Domain\UserRepository;
+use App\User\Domain\ValueObjects\UserUuidVO;
+use App\User\Infrastructure\Adapter\UserAdapter;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Exception;
+
+final class UserDoctrineRepository extends ServiceEntityRepository implements UserRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, \App\Entity\User::class);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getUserByUuid(UserUuidVO $uuid): ?User
+    {
+        $userResult = $this->createQueryBuilder('u')
+            ->where('u.uuid = :uuid')
+            ->andWhere('u.deletedAt = NULL')
+            ->setParameter('uuid', $uuid->uuid())
+            ->getQuery()->getResult();
+
+        return (new UserAdapter($userResult))->userDatabaseAdapter();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getAllUsers(): array
+    {
+        $userResults = $this->createQueryBuilder('u')
+            ->where('u.deletedAt = NULL')
+            ->getQuery()->execute();
+
+        $users = [];
+        foreach ($userResults as $userResult) {
+            $users[] = (new UserAdapter($userResult))->userDatabaseAdapter();
+        }
+        return $users;
+    }
+
+    public function save(User $user): void
+    {
+        $userEntity = new \App\Entity\User();
+
+        $userEntity->setUuid($user->getUuid()->uuid());
+        $userEntity->setName($user->getName()->value());
+        $userEntity->setEmail($user->getEmail()->value());
+        $userEntity->setPassword($user->getPassword()->value());
+        $userEntity->setRole($user->getRole()->value());
+        $userEntity->setCreatedAt($user->getCreatedAt()->value());
+        $userEntity->setUpdatedAt($user->getUpdatedAt()->value());
+        $userEntity->setDeletedAt($user->getDeletedAt()->value());
+
+        $this->getEntityManager()->persist($userEntity);
+        $this->getEntityManager()->flush();
+    }
+
+    public function update(User $user): void
+    {
+        $this->createQueryBuilder('u')
+            ->update()
+            ->set('u.name', ':name')
+            ->set('u.email', ':email')
+            ->set('u.password', ':password')
+            ->set('u.updatedAt', ':updatedAt')
+            ->where('u.uuid = :uuid')
+            ->setParameters(
+                [
+                    'uuid' => $user->getUuid()->uuid(),
+                    'name' => $user->getName()->value(),
+                    'email' => $user->getEmail()->value(),
+                    'password' => $user->getPassword()->value(),
+                    'updatedAt' => $user->getUpdatedAt()->value(),
+                ]
+            )
+            ->getQuery()->execute();
+    }
+
+    public function delete(User $user): void
+    {
+        $this->createQueryBuilder('u')
+            ->update()
+            ->set('u.deletedAt', ':deletedAt')
+            ->where('u.uuid = :uuid')
+            ->setParameters(
+                [
+                    'uuid' => $user->getUuid()->uuid(),
+                    'deletedAt' => $user->getUpdatedAt()->value(),
+                ]
+            )
+            ->getQuery()->execute();
+    }
+}

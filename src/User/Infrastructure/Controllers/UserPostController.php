@@ -16,7 +16,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class UserPostController extends BaseController
 {
-
     const ADMIN_ROLE = 'admin';
 
     public function __construct(
@@ -32,16 +31,15 @@ final class UserPostController extends BaseController
     {
         $requestData = json_decode($request->getContent(), true, JSON_THROW_ON_ERROR);
 
-        $createUserRequest = $this->createUserMapper($requestData);
+        $createUserRequest = $this->userRequestMapper($requestData);
 
         return $this->successResponse(['user has been created']);
     }
 
-    private function createUserMapper(array $request): CreateUserRequest
+    private function userRequestMapper(array $request): CreateUserRequest
     {
         $userEntity = new \App\Entity\User();
         $passwordTextHashed = $this->passwordHashes->hashPassword($userEntity, $request['password']);
-
 
         return new CreateUserRequest(
             (string) Uuid::v4(),
