@@ -19,6 +19,6 @@ final class UserNameVOMother
     public static function random(): UserNameVO
     {
         $faker = Factory::create();
-        return self::create($faker->name);
+        return self::create($faker->name());
     }
 }

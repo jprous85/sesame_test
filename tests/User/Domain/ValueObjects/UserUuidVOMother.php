@@ -8,7 +8,7 @@ namespace App\Tests\User\Domain\ValueObjects;
 
 use App\User\Domain\ValueObjects\UserUuidVO;
 use Exception;
-use Faker\Factory;
+use Symfony\Component\Uid\Uuid;
 
 final class UserUuidVOMother
 {
@@ -25,7 +25,6 @@ final class UserUuidVOMother
      */
     public static function random(): UserUuidVO
     {
-        $faker = Factory::create();
-        return self::create($faker->uuid);
+        return self::create((string) Uuid::v4());
     }
 }

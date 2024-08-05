@@ -28,9 +28,9 @@ final class UserDoctrineRepository extends ServiceEntityRepository implements Us
     {
         $userResult = $this->createQueryBuilder('u')
             ->where('u.uuid = :uuid')
-            ->andWhere('u.deletedAt = NULL')
+            ->andWhere('u.deletedAt is NULL')
             ->setParameter('uuid', $uuid->uuid())
-            ->getQuery()->getResult();
+            ->getQuery()->getOneOrNullResult();
 
         return (new UserAdapter($userResult))->userDatabaseAdapter();
     }
@@ -59,7 +59,6 @@ final class UserDoctrineRepository extends ServiceEntityRepository implements Us
         $userEntity->setName($user->getName()->value());
         $userEntity->setEmail($user->getEmail()->value());
         $userEntity->setPassword($user->getPassword()->value());
-        $userEntity->setRole($user->getRole()->value());
         $userEntity->setCreatedAt($user->getCreatedAt()->value());
         $userEntity->setUpdatedAt($user->getUpdatedAt()->value());
         $userEntity->setDeletedAt($user->getDeletedAt()->value());

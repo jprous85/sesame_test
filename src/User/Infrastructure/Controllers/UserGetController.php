@@ -7,16 +7,32 @@ namespace App\User\Infrastructure\Controllers;
 
 
 use App\Shared\Infrastructure\Controller\BaseController;
+use App\User\Application\Request\UserUuidRequest;
+use App\User\Application\UseCases\GetUserByUuidQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Exception;
+use Throwable;
 
 final class UserGetController extends BaseController
 {
+    /**
+     * @throws Throwable
+     */
     public function show(Request $request): JsonResponse
     {
         $userRequest = $request->get('uuid');
 
-        return $this->successResponse([]);
+        $getUserByUuidQuery = new GetUserByUuidQuery(
+            new UserUuidRequest($userRequest)
+        );
+
+        try {
+            $result = $this->manageQuery($getUserByUuidQuery);
+            return $this->successResponse($result);
+        } catch (Exception $e) {
+            return $this->errorResponse([$e->getMessage()]);
+        }
     }
 
     public function showAll(): JsonResponse

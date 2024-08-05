@@ -19,6 +19,6 @@ final class UserEmailVOMother
     public static function random(): UserEmailVO
     {
         $faker = Factory::create();
-        return self::create($faker->email);
+        return self::create($faker->email());
     }
 }
