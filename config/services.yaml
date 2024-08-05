@@ -33,3 +33,7 @@ services:
         App\Shared\Domain\EventHandlerInterface:
             tags:
                 - { name: messenger.message_handler, bus: query.bus }
+
+    app.custom_authenticator:
+        class: App\Security\Infrastructure\Controllers\LoginAuthenticatorController
+        parent: lexik_jwt_authentication.handler.authentication_success

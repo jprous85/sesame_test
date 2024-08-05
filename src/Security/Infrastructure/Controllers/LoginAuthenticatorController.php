@@ -3,9 +3,9 @@
 namespace App\Security\Infrastructure\Controllers;
 
 use App\Entity\User;
-use App\Shared\Infrastructure\Controller\BaseController;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -13,9 +13,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 
-final class LoginAuthenticatorController extends BaseController
+final class LoginAuthenticatorController extends AbstractController
 {
-
     public function login(
         Request                     $request,
         JWTTokenManagerInterface    $jwtManager,
@@ -27,7 +26,7 @@ final class LoginAuthenticatorController extends BaseController
         $user = $em->getRepository(User::class)->findOneBy(['email' => $requestData['email']]);
 
         if (!$user) {
-            return $this->errorResponse(['message' => 'This user: ' . $requestData['email'] . ' does not exist']);
+            throw new BadCredentialsException('User not exist');
         }
 
         if (!$passwordHashed->isPasswordValid($user, $requestData['password'])) {
@@ -36,6 +35,6 @@ final class LoginAuthenticatorController extends BaseController
 
         $token = $jwtManager->create($user);
 
-        return $this->successResponse(['token' => $token]);
+        return new JsonResponse(['token' => $token]);
     }
 }
