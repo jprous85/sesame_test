@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Services;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 
 final class DateTimeService
 {
+    /**
+     * @throws Exception
+     */
+    public static function nowWithDateTimeFormat(): DateTime
+    {
+        return new DateTime('now', new DateTimeZone("Europe/Madrid"));
+    }
+
     /**
      * @throws Exception
      */

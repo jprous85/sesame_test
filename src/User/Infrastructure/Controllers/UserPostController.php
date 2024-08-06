@@ -8,11 +8,13 @@ namespace App\User\Infrastructure\Controllers;
 
 use App\Shared\Infrastructure\Controller\BaseController;
 use App\User\Application\Request\CreateUserRequest;
+use App\User\Application\UseCases\CreateUserCommand;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Uuid;
+use Throwable;
 
 final class UserPostController extends BaseController
 {
@@ -25,11 +27,17 @@ final class UserPostController extends BaseController
         parent::__construct($this->commandBus, $this->queryBus);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function create(Request $request): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true, JSON_THROW_ON_ERROR);
 
         $createUserRequest = $this->userRequestMapper($requestData);
+
+        $createUserCommand = new CreateUserCommand($createUserRequest);
+        $this->manageCommand($createUserCommand);
 
         return $this->successResponse(['user has been created']);
     }

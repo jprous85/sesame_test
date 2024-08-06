@@ -50,7 +50,7 @@ final class User
             $name,
             $email,
             $password,
-            new UserCreatedAtVO(DateTimeService::now()),
+            new UserCreatedAtVO(DateTimeService::nowWithDateTimeFormat()),
             new UserUpdatedAtVO(null),
             new UserDeletedAtVO(null),
         );
@@ -68,7 +68,7 @@ final class User
         $this->name      = $name;
         $this->email     = $email;
         $this->password  = $password;
-        $this->updatedAt = new UserUpdatedAtVO(DateTimeService::now());
+        $this->updatedAt = new UserUpdatedAtVO(DateTimeService::nowWithDateTimeFormat());
     }
 
     /**
@@ -76,7 +76,7 @@ final class User
      */
     public function deleted()
     {
-        $this->deletedAt = new UserDeletedAtVO(DateTimeService::now());
+        $this->deletedAt = new UserDeletedAtVO(DateTimeService::nowWithDateTimeFormat());
     }
 
 
