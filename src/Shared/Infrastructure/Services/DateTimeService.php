@@ -45,4 +45,12 @@ final class DateTimeService
     {
         return (new DateTimeImmutable('now', new DateTimeZone("Europe/Madrid")))->format('Uv');
     }
+
+    /**
+     * @throws Exception
+     */
+    public static function timeToTimeStamp(string $timestamp): DateTime
+    {
+        return (new DateTime($timestamp, new DateTimeZone("Europe/Madrid")));
+    }
 }

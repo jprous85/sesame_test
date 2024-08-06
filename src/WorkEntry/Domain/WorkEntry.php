@@ -40,8 +40,8 @@ final class WorkEntry
      * @throws Exception
      */
     public static function create(
-        WorkEntryUuidVO      $uuid,
-        WorkEntryUserUuidVO  $userUuid
+        WorkEntryUuidVO     $uuid,
+        WorkEntryUserUuidVO $userUuid
     ): self
     {
         return new self(
@@ -49,7 +49,9 @@ final class WorkEntry
             $userUuid,
             new WorkEntryStartDateVO(DateTimeService::nowWithDateTimeFormat()),
             new WorkEntryEndDateVO(null),
-            new WorkEntryCreatedAtVO(DateTimeService::nowWithDateTimeFormat())
+            new WorkEntryCreatedAtVO(DateTimeService::nowWithDateTimeFormat()),
+            new WorkEntryUpdatedAtVO(null),
+            new WorkEntryDeletedAtVO(null)
         );
     }
 
@@ -62,7 +64,7 @@ final class WorkEntry
     ): void
     {
         $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->endDate   = $endDate;
         $this->updatedAt = new WorkEntryUpdatedAtVO(DateTimeService::nowWithDateTimeFormat());
     }
 

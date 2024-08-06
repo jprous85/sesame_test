@@ -30,6 +30,7 @@ final class DeleteUserCommandTest extends TestCase
     }
 
     /**
+     * @test
      * @throws Exception
      */
     public function ensureHasCorrectData(): void
