@@ -1,0 +1,25 @@
+
+show-work-entry:
+  path: /api/work-entry/{uuid}/show
+  methods: get
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryGetController::show
+
+show-all-work-entrys:
+  path: /api/work-entry/show-all
+  methods: get
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryGetController::showAll
+
+create-work-entry:
+  path: /api/work-entry/create
+  methods: post
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryPostController::create
+
+update-work-entry:
+  path: /api/work-entry/{uuid}/update
+  methods: put
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryPutController::update
+
+delete-work-entry:
+  path: /api/work-entry/{uuid}/delete
+  methods: delete
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryDeleteController::delete

@@ -6,3 +6,7 @@ auth:
 user:
   resource: ./routes/user.yaml
   type: yaml
+
+work-entry:
+  resource: ./routes/workEntry.yaml
+  type: yaml
