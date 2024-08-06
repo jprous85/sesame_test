@@ -8,7 +8,7 @@ namespace App\User\Application\UseCases;
 
 use App\User\Application\Request\UserUuidRequest;
 
-final class DeleteUSerCommand
+final class DeleteUserCommand
 {
     public function __construct(private readonly UserUuidRequest $uuidRequest)
     {

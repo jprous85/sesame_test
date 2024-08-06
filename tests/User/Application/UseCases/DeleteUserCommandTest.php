@@ -9,7 +9,7 @@ namespace App\Tests\User\Application\UseCases;
 use App\Tests\User\Domain\UserMother;
 use App\Tests\User\Domain\ValueObjects\UserUuidVOMother;
 use App\User\Application\Request\UserUuidRequest;
-use App\User\Application\UseCases\DeleteUSerCommand;
+use App\User\Application\UseCases\DeleteUserCommand;
 use Exception;
 use PHPUnit\Framework\TestCase;
 

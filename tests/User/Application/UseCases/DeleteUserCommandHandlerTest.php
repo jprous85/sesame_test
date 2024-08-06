@@ -10,7 +10,7 @@ use App\Shared\Domain\CommandHandlerInterface;
 use App\Tests\User\Domain\UserMother;
 use App\User\Application\Request\UpdateUserRequest;
 use App\User\Application\Request\UserUuidRequest;
-use App\User\Application\UseCases\DeleteUSerCommand;
+use App\User\Application\UseCases\DeleteUserCommand;
 use App\User\Application\UseCases\DeleteUserCommandHandler;
 use App\User\Application\UseCases\UpdateUserCommand;
 use App\User\Application\UseCases\UpdateUserCommandHandler;

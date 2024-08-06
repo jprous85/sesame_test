@@ -8,7 +8,7 @@ namespace App\User\Infrastructure\Controllers;
 
 use App\Shared\Infrastructure\Controller\BaseController;
 use App\User\Application\Request\UserUuidRequest;
-use App\User\Application\UseCases\DeleteUSerCommand;
+use App\User\Application\UseCases\DeleteUserCommand;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
@@ -22,7 +22,7 @@ final class UserDeleteController extends BaseController
     {
         $userRequest = $request->get('uuid');
 
-        $deleteUserCommand = new DeleteUSerCommand(
+        $deleteUserCommand = new DeleteUserCommand(
             new UserUuidRequest($userRequest)
         );
         $this->manageCommand($deleteUserCommand);

@@ -91,12 +91,8 @@ final class UserDoctrineRepository extends ServiceEntityRepository implements Us
             ->update()
             ->set('u.deletedAt', ':deletedAt')
             ->where('u.uuid = :uuid')
-            ->setParameters(
-                [
-                    'uuid'      => $user->getUuid()->uuid(),
-                    'deletedAt' => $user->getUpdatedAt()->value(),
-                ]
-            )
+            ->setParameter('uuid', $user->getUuid()->uuid())
+            ->setParameter('deletedAt', $user->getUpdatedAt()->value())
             ->getQuery()->execute();
     }
 }
