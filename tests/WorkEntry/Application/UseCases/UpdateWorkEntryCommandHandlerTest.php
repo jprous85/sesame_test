@@ -19,16 +19,19 @@ use App\WorkEntry\Domain\WorkEntryRepository;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class UpdateWorkEntryCommandHandlerTest extends TestCase
 {
-    private MockObject|WorkEntryRepository $workEntryRepository;
-    private UpdateWorkEntryCommandHandler  $updateWorkEntryCommandHandler;
+    private MockObject|WorkEntryRepository      $workEntryRepository;
+    private MockObject|EventDispatcherInterface $eventDispatcher;
+    private UpdateWorkEntryCommandHandler       $updateWorkEntryCommandHandler;
 
     protected function setUp(): void
     {
-        $this->workEntryRepository           = $this->createMock(WorkEntryRepository::class);
-        $this->updateWorkEntryCommandHandler = new UpdateWorkEntryCommandHandler($this->workEntryRepository);
+        $this->workEntryRepository = $this->createMock(WorkEntryRepository::class);
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $this->updateWorkEntryCommandHandler = new UpdateWorkEntryCommandHandler($this->workEntryRepository, $this->eventDispatcher);
     }
 
     /**
@@ -47,7 +50,7 @@ final class UpdateWorkEntryCommandHandlerTest extends TestCase
      * throw_error_if_user_does_not_exist
      * @throws Exception
      */
-    public function isShouldThrowErrorIfUserDoesNotExist ()
+    public function isShouldThrowErrorIfUserDoesNotExist()
     {
         $this->expectException(WorkEntryNotFoundException::class);
         $this->workEntryRepository
@@ -57,6 +60,10 @@ final class UpdateWorkEntryCommandHandlerTest extends TestCase
         $this->workEntryRepository
             ->expects(self::never())
             ->method('update');
+
+        $this->eventDispatcher
+            ->expects(self::never())
+            ->method('dispatch');
 
         $updateUserRequest = new UpdateWorkEntryRequest(
             '',
@@ -73,9 +80,9 @@ final class UpdateWorkEntryCommandHandlerTest extends TestCase
      * update_successfully_user_data
      * @throws Exception
      */
-    public function isShouldUpdateSuccessfullyUserData ()
+    public function isShouldUpdateSuccessfullyUserData()
     {
-        $workEntry = WorkEntryMother::random();
+        $workEntry        = WorkEntryMother::random();
         $workEntryUpdated = WorkEntryMother::random();
 
         $this->workEntryRepository
@@ -86,6 +93,10 @@ final class UpdateWorkEntryCommandHandlerTest extends TestCase
         $this->workEntryRepository
             ->expects(self::once())
             ->method('update');
+
+        $this->eventDispatcher
+            ->expects(self::once())
+            ->method('dispatch');
 
         $updateUserRequest = new UpdateWorkEntryRequest(
             $workEntry->getUuid()->uuid(),

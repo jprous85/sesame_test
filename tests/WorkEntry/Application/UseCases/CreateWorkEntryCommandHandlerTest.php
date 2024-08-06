@@ -15,17 +15,20 @@ use App\WorkEntry\Domain\WorkEntryRepository;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class CreateWorkEntryCommandHandlerTest  extends TestCase
 {
 
     private MockObject|WorkEntryRepository $workEntryRepository;
+    private MockObject|EventDispatcherInterface $eventDispatcher;
     private CreateWorkEntryCommandHandler  $createWorkEntryCommandHandler;
 
     protected function setUp(): void
     {
         $this->workEntryRepository = $this->createMock(WorkEntryRepository::class);
-        $this->createWorkEntryCommandHandler = new CreateWorkEntryCommandHandler($this->workEntryRepository);
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $this->createWorkEntryCommandHandler = new CreateWorkEntryCommandHandler($this->workEntryRepository, $this->eventDispatcher);
     }
 
     /**
@@ -55,6 +58,10 @@ final class CreateWorkEntryCommandHandlerTest  extends TestCase
         $this->workEntryRepository
             ->expects(self::once())
             ->method('save');
+
+        $this->eventDispatcher
+            ->expects(self::once())
+            ->method('dispatch');
 
         $createWorkEntryCommand = new CreateWorkEntryCommand($createWorkEntryRequest);
         ($this->createWorkEntryCommandHandler)($createWorkEntryCommand);
