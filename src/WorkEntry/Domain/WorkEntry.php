@@ -6,7 +6,10 @@ declare(strict_types=1);
 namespace App\WorkEntry\Domain;
 
 
+use App\Shared\Domain\Aggregate\AggregateRoot;
 use App\Shared\Infrastructure\Services\DateTimeService;
+use App\WorkEntry\Domain\Event\CreateWorkEntryDomainEvent;
+use App\WorkEntry\Domain\Event\UpdateWorkEntryDomainEvent;
 use App\WorkEntry\Domain\ValueObjects\WorkEntryCreatedAtVO;
 use App\WorkEntry\Domain\ValueObjects\WorkEntryDeletedAtVO;
 use App\WorkEntry\Domain\ValueObjects\WorkEntryEndDateVO;
@@ -16,7 +19,7 @@ use App\WorkEntry\Domain\ValueObjects\WorkEntryUserUuidVO;
 use App\WorkEntry\Domain\ValueObjects\WorkEntryUuidVO;
 use Exception;
 
-final class WorkEntry
+final class WorkEntry extends AggregateRoot
 {
     public function __construct(
         private WorkEntryUuidVO      $uuid,
@@ -44,7 +47,7 @@ final class WorkEntry
         WorkEntryUserUuidVO $userUuid
     ): self
     {
-        return new self(
+        $owner = new self(
             $uuid,
             $userUuid,
             new WorkEntryStartDateVO(DateTimeService::nowWithDateTimeFormat()),
@@ -53,6 +56,10 @@ final class WorkEntry
             new WorkEntryUpdatedAtVO(null),
             new WorkEntryDeletedAtVO(null)
         );
+
+        $owner->addEvent(new CreateWorkEntryDomainEvent($uuid));
+
+        return $owner;
     }
 
     /**
@@ -66,6 +73,8 @@ final class WorkEntry
         $this->startDate = $startDate;
         $this->endDate   = $endDate;
         $this->updatedAt = new WorkEntryUpdatedAtVO(DateTimeService::nowWithDateTimeFormat());
+
+        $this->addEvent(new UpdateWorkEntryDomainEvent($this->uuid));
     }
 
     /**

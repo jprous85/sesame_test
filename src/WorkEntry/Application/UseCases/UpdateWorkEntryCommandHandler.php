@@ -13,12 +13,15 @@ use App\WorkEntry\Domain\ValueObjects\WorkEntryStartDateVO;
 use App\WorkEntry\Domain\ValueObjects\WorkEntryUuidVO;
 use App\WorkEntry\Domain\WorkEntryNotFoundException;
 use App\WorkEntry\Domain\WorkEntryRepository;
-use DateTime;
 use Exception;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class UpdateWorkEntryCommandHandler implements CommandHandlerInterface
 {
-    public function __construct(private readonly WorkEntryRepository $workEntryRepository)
+    public function __construct(
+        private readonly WorkEntryRepository $workEntryRepository,
+        private readonly EventDispatcherInterface $eventDispatcher
+    )
     {
     }
 
@@ -41,5 +44,7 @@ final class UpdateWorkEntryCommandHandler implements CommandHandlerInterface
         );
 
         $this->workEntryRepository->update($workEntry);
+
+        $this->eventDispatcher->dispatch(...$workEntry->pullDomainEvents());
     }
 }

@@ -12,10 +12,14 @@ use App\WorkEntry\Domain\ValueObjects\WorkEntryUuidVO;
 use App\WorkEntry\Domain\WorkEntry;
 use App\WorkEntry\Domain\WorkEntryRepository;
 use Exception;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class CreateWorkEntryCommandHandler implements CommandHandlerInterface
 {
-    public function __construct(private readonly WorkEntryRepository $workEntryRepository)
+    public function __construct(
+        private readonly WorkEntryRepository $workEntryRepository,
+        private readonly EventDispatcherInterface $eventDispatcher
+    )
     {
     }
 
@@ -30,5 +34,7 @@ final class CreateWorkEntryCommandHandler implements CommandHandlerInterface
         );
 
         $this->workEntryRepository->save($workEntry);
+
+        $this->eventDispatcher->dispatch(...$workEntry->pullDomainEvents());
     }
 }
