@@ -9,6 +9,9 @@ namespace App\Tests\User\Application\UseCases;
 use App\Shared\Domain\CommandHandlerInterface;
 use App\Tests\User\Domain\UserMother;
 use App\User\Application\Request\UpdateUserRequest;
+use App\User\Application\Request\UserUuidRequest;
+use App\User\Application\UseCases\DeleteUSerCommand;
+use App\User\Application\UseCases\DeleteUserCommandHandler;
 use App\User\Application\UseCases\UpdateUserCommand;
 use App\User\Application\UseCases\UpdateUserCommandHandler;
 use App\User\Domain\UserNotFoundException;
@@ -17,15 +20,15 @@ use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class UpdateUserCommandHandlerTest extends TestCase
+final class DeleteUserCommandHandlerTest extends TestCase
 {
     private MockObject|UserRepository $userRepository;
-    private UpdateUserCommandHandler  $updateUserCommandHandler;
+    private DeleteUserCommandHandler  $deleteUserCommandHandler;
 
     protected function setUp(): void
     {
         $this->userRepository           = $this->createMock(UserRepository::class);
-        $this->updateUserCommandHandler = new UpdateUserCommandHandler($this->userRepository);
+        $this->deleteUserCommandHandler = new DeleteUserCommandHandler($this->userRepository);
     }
 
     /**
@@ -35,8 +38,8 @@ final class UpdateUserCommandHandlerTest extends TestCase
      */
     public function ensureIsInstanceOf(): void
     {
-        $this->assertInstanceOf(UpdateUserCommandHandler::class, $this->updateUserCommandHandler);
-        $this->assertInstanceOf(CommandHandlerInterface::class, $this->updateUserCommandHandler);
+        $this->assertInstanceOf(DeleteUserCommandHandler::class, $this->deleteUserCommandHandler);
+        $this->assertInstanceOf(CommandHandlerInterface::class, $this->deleteUserCommandHandler);
     }
 
     /**
@@ -53,17 +56,14 @@ final class UpdateUserCommandHandlerTest extends TestCase
 
         $this->userRepository
             ->expects(self::never())
-            ->method('update');
+            ->method('delete');
 
-        $updateUserRequest = new UpdateUserRequest(
-            '',
-            '',
-            '',
-            ''
+        $deleteUserCommand = new DeleteUserCommand(
+            new UserUuidRequest('')
         );
-        $updateUserCommand = new UpdateUserCommand($updateUserRequest);
+        $deleteUserCommand = new DeleteUserCommand($deleteUserCommand);
 
-        ($this->updateUserCommandHandler)($updateUserCommand);
+        ($this->deleteUserCommandHandler)($deleteUserCommand);
     }
 
     /**
@@ -71,10 +71,9 @@ final class UpdateUserCommandHandlerTest extends TestCase
      * update_successfully_user_data
      * @throws Exception
      */
-    public function isShouldUpdateSuccessfullyUserData ()
+    public function isShouldDeleteUser ()
     {
         $user = UserMother::random();
-        $userUpdated = UserMother::random();
 
         $this->userRepository
             ->expects(self::once())
@@ -83,16 +82,12 @@ final class UpdateUserCommandHandlerTest extends TestCase
 
         $this->userRepository
             ->expects(self::once())
-            ->method('update');
+            ->method('delete');
 
-        $updateUserRequest = new UpdateUserRequest(
-            $user->getUuid()->uuid(),
-            $userUpdated->getName()->value(),
-            $userUpdated->getEmail()->value(),
-            $userUpdated->getPassword()->value()
+        $deleteUserCommand = new DeleteUserCommand(
+            new UserUuidRequest($user->getUuid()->uuid())
         );
-        $updateUserCommand = new UpdateUserCommand($updateUserRequest);
 
-        ($this->updateUserCommandHandler)($updateUserCommand);
+        ($this->deleteUserCommandHandler)($deleteUserCommand);
     }
 }
