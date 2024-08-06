@@ -9,11 +9,20 @@ namespace App\User\Application\Request;
 final class UpdateUserRequest
 {
     public function __construct(
+        private readonly string $uuid,
         private readonly string $name,
         private readonly string $email,
         private readonly string $password,
     )
     {
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
     }
 
     /**

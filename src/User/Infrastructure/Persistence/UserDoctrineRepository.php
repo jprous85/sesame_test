@@ -11,6 +11,7 @@ use App\User\Domain\UserRepository;
 use App\User\Domain\ValueObjects\UserUuidVO;
 use App\User\Infrastructure\Adapter\UserAdapter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
@@ -76,15 +77,11 @@ final class UserDoctrineRepository extends ServiceEntityRepository implements Us
             ->set('u.password', ':password')
             ->set('u.updatedAt', ':updatedAt')
             ->where('u.uuid = :uuid')
-            ->setParameters(
-                [
-                    'uuid' => $user->getUuid()->uuid(),
-                    'name' => $user->getName()->value(),
-                    'email' => $user->getEmail()->value(),
-                    'password' => $user->getPassword()->value(),
-                    'updatedAt' => $user->getUpdatedAt()->value(),
-                ]
-            )
+            ->setParameter('uuid', $user->getUuid()->uuid())
+            ->setParameter('name', $user->getName()->value())
+            ->setParameter('email', $user->getEmail()->value())
+            ->setParameter('password', $user->getPassword()->value())
+            ->setParameter('updatedAt', $user->getUpdatedAt()->value())
             ->getQuery()->execute();
     }
 
@@ -96,7 +93,7 @@ final class UserDoctrineRepository extends ServiceEntityRepository implements Us
             ->where('u.uuid = :uuid')
             ->setParameters(
                 [
-                    'uuid' => $user->getUuid()->uuid(),
+                    'uuid'      => $user->getUuid()->uuid(),
                     'deletedAt' => $user->getUpdatedAt()->value(),
                 ]
             )
