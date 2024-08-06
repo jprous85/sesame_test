@@ -8,7 +8,6 @@ namespace App\User\Application\UseCases;
 
 use App\Shared\Domain\QueryHandlerInterface;
 use App\User\Application\Response\UserResponse;
-use App\User\Domain\User;
 use App\User\Domain\UserNotFoundException;
 use App\User\Domain\UserRepository;
 use App\User\Domain\ValueObjects\UserUuidVO;
@@ -33,19 +32,6 @@ final class GetUserByUuidQueryHandler implements QueryHandlerInterface
             throw new UserNotFoundException();
         }
 
-        return $this->userResponseMapper($user)->toArray();
-    }
-
-    private function userResponseMapper(User $user): UserResponse
-    {
-        return new UserResponse(
-            $user->getUuid()->uuid(),
-            $user->getName()->value(),
-            $user->getEmail()->value(),
-            $user->getPassword()->value(),
-            $user->getCreatedAt()->value()->format('Y-m-d h:i'),
-            $user->getUpdatedAt()->value()?->format('Y-m-d h:i'),
-            $user->getDeletedAt()->value()?->format('Y-m-d h:i')
-        );
+        return UserResponse::userResponseMapper($user)->toArray();
     }
 }

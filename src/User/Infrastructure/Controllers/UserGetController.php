@@ -8,6 +8,7 @@ namespace App\User\Infrastructure\Controllers;
 
 use App\Shared\Infrastructure\Controller\BaseController;
 use App\User\Application\Request\UserUuidRequest;
+use App\User\Application\UseCases\GetAllUsersQuery;
 use App\User\Application\UseCases\GetUserByUuidQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +36,14 @@ final class UserGetController extends BaseController
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function showAll(): JsonResponse
     {
-        return $this->successResponse([]);
+        $getAllUsersQuery = new GetAllUsersQuery();
+        $result = $this->manageQuery($getAllUsersQuery);
+
+        return $this->successResponse($result);
     }
 }

@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace App\User\Application\Response;
 
 
+use App\User\Domain\User;
+
 final class UserResponse
 {
     public function __construct(
@@ -87,5 +89,18 @@ final class UserResponse
             "updated_at" => $this->updatedAt,
             "deleted_at" => $this->deletedAt,
         ];
+    }
+
+    public static function userResponseMapper(User $user): UserResponse
+    {
+        return new self(
+            $user->getUuid()->uuid(),
+            $user->getName()->value(),
+            $user->getEmail()->value(),
+            $user->getPassword()->value(),
+            $user->getCreatedAt()->value()->format('Y-m-d h:i'),
+            $user->getUpdatedAt()->value()?->format('Y-m-d h:i'),
+            $user->getDeletedAt()->value()?->format('Y-m-d h:i')
+        );
     }
 }

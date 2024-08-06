@@ -41,7 +41,7 @@ final class UserDoctrineRepository extends ServiceEntityRepository implements Us
     public function getAllUsers(): array
     {
         $userResults = $this->createQueryBuilder('u')
-            ->where('u.deletedAt = NULL')
+            ->where('u.deletedAt is NULL')
             ->getQuery()->execute();
 
         $users = [];

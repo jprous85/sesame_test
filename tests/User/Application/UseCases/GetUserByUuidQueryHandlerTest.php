@@ -10,6 +10,7 @@ namespace App\Tests\User\Application\UseCases;
 use App\Shared\Domain\QueryHandlerInterface;
 use App\Tests\User\Domain\UserMother;
 use App\User\Application\Request\UserUuidRequest;
+use App\User\Application\Response\UserResponse;
 use App\User\Application\UseCases\GetUserByUuidQuery;
 use App\User\Application\UseCases\GetUserByUuidQueryHandler;
 use App\User\Domain\UserNotFoundException;
@@ -63,6 +64,7 @@ final class GetUserByUuidQueryHandlerTest extends TestCase
     public function isShouldReturnCorrectData ()
     {
         $user = UserMother::random();
+        $userResponse = UserResponse::userResponseMapper($user);
 
         $this->userRepository
             ->expects(self::once())
@@ -70,6 +72,8 @@ final class GetUserByUuidQueryHandlerTest extends TestCase
             ->willReturn($user);
 
         $query = new GetUserByUuidQuery(new UserUuidRequest($user->getUuid()->uuid()));
-        ($this->getUserByUuidQueryHandler)($query);
+        $result = ($this->getUserByUuidQueryHandler)($query);
+
+        $this->assertEquals($result, $userResponse->toArray());
     }
 }
