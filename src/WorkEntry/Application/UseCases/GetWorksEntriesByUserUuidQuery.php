@@ -6,11 +6,11 @@ declare(strict_types=1);
 namespace App\WorkEntry\Application\UseCases;
 
 
-use App\WorkEntry\Application\Request\WorkEntryUserUuidRequest;
+use App\WorkEntry\Application\Request\WorkEntryUuidRequest;
 
-final class GetWorkEntryByUserUuidQuery
+final class GetWorksEntriesByUserUuidQuery
 {
-    public function __construct(private readonly WorkEntryUserUuidRequest $uuidRequest)
+    public function __construct(private readonly WorkEntryUuidRequest $uuidRequest)
     {
     }
 

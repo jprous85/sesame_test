@@ -8,12 +8,12 @@ namespace App\Tests\WorkEntry\Application\UseCases;
 
 use App\Tests\WorkEntry\Domain\ValueObjects\WorkEntryUserUuidVOMother;
 use App\Tests\WorkEntry\Domain\WorkEntryMother;
-use App\WorkEntry\Application\Request\WorkEntryUserUuidRequest;
-use App\WorkEntry\Application\UseCases\GetWorkEntryByUserUuidQuery;
+use App\WorkEntry\Application\Request\WorkEntryUuidRequest;
+use App\WorkEntry\Application\UseCases\GetWorksEntriesByUserUuidQuery;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-final class GetWorkEntryByUserUuidQueryTest extends TestCase
+final class GetWorksEntriesByUserUuidQueryTest extends TestCase
 {
 
     /**
@@ -23,11 +23,11 @@ final class GetWorkEntryByUserUuidQueryTest extends TestCase
      */
     public function ensureIsInstanceOf(): void
     {
-        $workEntryByUserUuidQuery = new GetWorkEntryByUserUuidQuery(
-            new WorkEntryUserUuidRequest(WorkEntryUserUuidVOMother::random()->uuid())
+        $workEntryByUserUuidQuery = new GetWorksEntriesByUserUuidQuery(
+            new WorkEntryUuidRequest(WorkEntryUserUuidVOMother::random()->uuid())
         );
 
-        $this->assertInstanceOf(GetWorkEntryByUserUuidQuery::class, $workEntryByUserUuidQuery);
+        $this->assertInstanceOf(GetWorksEntriesByUserUuidQuery::class, $workEntryByUserUuidQuery);
     }
 
     /**
@@ -37,8 +37,8 @@ final class GetWorkEntryByUserUuidQueryTest extends TestCase
     {
         $workEntry = WorkEntryMother::random();
 
-        $getWorkEntryByUserUuidQuery = new GetWorkEntryByUserUuidQuery(
-            new WorkEntryUserUuidRequest($workEntry->getUuid()->uuid())
+        $getWorkEntryByUserUuidQuery = new GetWorksEntriesByUserUuidQuery(
+            new WorkEntryUuidRequest($workEntry->getUuid()->uuid())
         );
 
         $this->assertEquals($getWorkEntryByUserUuidQuery->getUuid(), $workEntry->getUuid()->uuid());

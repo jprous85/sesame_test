@@ -83,6 +83,9 @@ final class WorkEntry extends AggregateRoot
     public function finishDate()
     {
         $this->endDate = new WorkEntryEndDateVO(DateTimeService::nowWithDateTimeFormat());
+        $this->updatedAt = new WorkEntryUpdatedAtVO(DateTimeService::nowWithDateTimeFormat());
+
+        $this->addEvent(new UpdateWorkEntryDomainEvent($this->uuid));
     }
 
     /**

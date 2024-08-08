@@ -4,6 +4,11 @@ show-work-entry:
   methods: get
   controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryGetController::show
 
+show-all-work-entry-by-user:
+  path: /api/work-entry/{uuid}/show-all-by-user
+  methods: get
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryGetController::showAllWorksEntriesByUserUuid
+
 show-all-work-entrys:
   path: /api/work-entry/show-all
   methods: get
@@ -13,6 +18,11 @@ create-work-entry:
   path: /api/work-entry/create
   methods: post
   controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryPostController::create
+
+signing-work-entry:
+  path: /api/work-entry/{uuid}/signing
+  methods: post
+  controller: App\WorkEntry\Infrastructure\Controllers\WorkEntryPostController::signing
 
 update-work-entry:
   path: /api/work-entry/{uuid}/update

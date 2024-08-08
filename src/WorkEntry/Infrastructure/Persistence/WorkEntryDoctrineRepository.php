@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\WorkEntry\Infrastructure\Persistence;
 
 
+use App\WorkEntry\Domain\ValueObjects\WorkEntryUserUuidVO;
 use App\WorkEntry\Domain\ValueObjects\WorkEntryUuidVO;
 use App\WorkEntry\Domain\WorkEntry;
 use App\WorkEntry\Domain\WorkEntryRepository;
@@ -33,6 +34,39 @@ final class WorkEntryDoctrineRepository extends ServiceEntityRepository implemen
             ->getQuery()->getOneOrNullResult();
 
         return (new WorkEntryAdapter($workEntryResult))->workEntryDatabaseAdapter();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getWorksEntriesByUserUuid(WorkEntryUserUuidVO $uuid): array
+    {
+        $workEntryResults = $this->createQueryBuilder('we')
+            ->where('we.userUuid = :uuid')
+            ->andWhere('we.deletedAt is NULL')
+            ->setParameter('uuid', $uuid->uuid())
+            ->getQuery()->execute();
+
+        $worksEntries = [];
+        foreach ($workEntryResults as $workEntry) {
+            $worksEntries[] = (new WorkEntryAdapter($workEntry))->workEntryDatabaseAdapter();
+        }
+        return $worksEntries;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getWorkEntryByUserUuid(WorkEntryUserUuidVO $uuid): ?WorkEntry
+    {
+        $workEntryResults = $this->createQueryBuilder('we')
+            ->where('we.userUuid = :uuid')
+            ->andWhere('we.endDate is NULL')
+            ->andWhere('we.deletedAt is NULL')
+            ->setParameter('uuid', $uuid->uuid())
+            ->getQuery()->getOneOrNullResult();
+
+        return (new WorkEntryAdapter($workEntryResults))->workEntryDatabaseAdapter();
     }
 
     /**
