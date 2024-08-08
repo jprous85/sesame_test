@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "d2ef003e-4db4-4676-a6a3-d984886f6510",
+		"name": "User-Crud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32043254",
+		"_collection_link": "https://www.postman.com/gold-escape-739190/workspace/sesame/collection/32043254-d2ef003e-4db4-4676-a6a3-d984886f6510?action=share&source=collection_link&creator=32043254"
+	},
+	"item": [
+		{
+			"name": "show-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/user/ead80abb-2b71-46ef-ba87-c6f5e690d7e5/show",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"ead80abb-2b71-46ef-ba87-c6f5e690d7e5",
+						"show"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show-all-users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/user/show-all",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"show-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test4\",\n    \"email\": \"test4@sesame.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/user/create",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test2\",\n    \"email\": \"test2@sesame.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/user/ed0fdac6-7e58-42ec-90a2-663097b731c2/update",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"ed0fdac6-7e58-42ec-90a2-663097b731c2",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/user/ed0fdac6-7e58-42ec-90a2-663097b731c2/delete",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"ed0fdac6-7e58-42ec-90a2-663097b731c2",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

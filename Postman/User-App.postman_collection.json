@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "f79c9d6a-665a-4b82-879e-25bd90f194aa",
+		"name": "User-App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32043254",
+		"_collection_link": "https://www.postman.com/gold-escape-739190/workspace/sesame/collection/32043254-f79c9d6a-665a-4b82-879e-25bd90f194aa?action=share&source=collection_link&creator=32043254"
+	},
+	"item": [
+		{
+			"name": "show-all-work-entry-by-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/work-entry/ead80abb-2b71-46ef-ba87-c6f5e690d7e4/show-all-by-user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"ead80abb-2b71-46ef-ba87-c6f5e690d7e4",
+						"show-all-by-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signing-work-entry-by-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/work-entry/ead80abb-2b71-46ef-ba87-c6f5e690d7e4/signing",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"ead80abb-2b71-46ef-ba87-c6f5e690d7e4",
+						"signing"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

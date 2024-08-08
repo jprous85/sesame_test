@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "e15ef07a-3c79-48b5-a950-73fd2093153d",
+		"name": "Work-Entry-Crud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32043254",
+		"_collection_link": "https://www.postman.com/gold-escape-739190/workspace/sesame/collection/32043254-e15ef07a-3c79-48b5-a950-73fd2093153d?action=share&source=collection_link&creator=32043254"
+	},
+	"item": [
+		{
+			"name": "show-work-entry",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/work-entry/c031294f-40aa-4574-a0ec-c71ac5f101dd/show",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"c031294f-40aa-4574-a0ec-c71ac5f101dd",
+						"show"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show-all-works-entries",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/work-entry/show-all",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"show-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-work-entry",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_uuid\": \"ead80abb-2b71-46ef-ba87-c6f5e690d7e4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/work-entry/create",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-work-entry",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"start_date\": \"2024-08-07 12:56\",\n    \"end_date\": \"2024-08-07 22:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/work-entry/ac752250-c447-4c1a-a893-5492cc188881/update",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"ac752250-c447-4c1a-a893-5492cc188881",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-work-entry",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/work-entry/c031294f-40aa-4574-a0ec-c71ac5f101dd/delete",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"work-entry",
+						"c031294f-40aa-4574-a0ec-c71ac5f101dd",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
