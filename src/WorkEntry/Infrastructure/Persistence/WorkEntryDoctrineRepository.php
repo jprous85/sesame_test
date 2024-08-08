@@ -45,6 +45,7 @@ final class WorkEntryDoctrineRepository extends ServiceEntityRepository implemen
             ->where('we.userUuid = :uuid')
             ->andWhere('we.deletedAt is NULL')
             ->setParameter('uuid', $uuid->uuid())
+            ->orderBy('we.startDate')
             ->getQuery()->execute();
 
         $worksEntries = [];
